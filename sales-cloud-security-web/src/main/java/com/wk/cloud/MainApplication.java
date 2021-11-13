@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 /**
  * @author：tongrongbing
  * @date：created in 2021/11/7 5:55 下午
- * @description： 启动类
+ * @description： 启动类1
  */
 @SpringBootApplication
 public class MainApplication {
