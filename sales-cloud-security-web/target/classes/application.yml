@@ -1,0 +1,73 @@
+app.id:
+  sales-cloud-security-web
+server:
+  port: 8888
+  servlet:
+    session:
+      timeout: 1m #session会话超时时间默认是30m,不能小于1分钟，当用户登陆之后，不做任何操作时候，30m后就会session失效
+      cookie:
+        name: JSESSIONID # 指定浏览器中cookie的关于sessionId的名称
+sales:
+  cloud:
+    security:
+      code:
+        image:
+          width: 300
+          length: 4
+          url: /authentication/form,/user,/user/*
+        sms:
+          url: /authentication/mobile
+
+# 数据源配置
+spring:
+  datasource:
+    username: root
+    password: admin123
+    url: jdbc:mysql://127.0.0.1:3306/study?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false&zeroDateTimeBehavior=convertToNull
+    #mysql8版本以上驱动包指定新的驱动类
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 100
+      min-idle: 3
+      pool-name:  SpringBootHikariCP
+      max-lifetime: 1765000
+      is-read-only: false
+
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password:
+    database: 0
+    timeout: 10000
+    jedis:
+      pool:
+        max-active: 15
+        max-wait: 1000
+        max-idle: 15
+        min-idle: 8
+  session:
+    store-type: redis  # session采用redis管理,redis的过期时间session.timeout进行处理
+
+#mybatis
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**/*.xml
+  #实体扫描，多个package用逗号或者分号分隔
+  typeAliasesPackage: com.wk.cloud.modules
+  global-config:
+    #数据库相关配置
+    db-config:
+      #主键类型  AUTO:"数据库ID自增", INPUT:"用户输入ID", ID_WORKER:"全局唯一ID (数字类型唯一ID)", UUID:"全局唯一ID UUID";
+      id-type: AUTO
+      #字段策略 IGNORED:"忽略判断",NOT_NULL:"非 NULL 判断"),NOT_EMPTY:"非空判断"
+      field-strategy: NOT_NULL
+      #驼峰下划线转换
+      column-underline: true
+      logic-delete-value: -1
+      logic-not-delete-value: 0
+    banner: false
+  #原生配置
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+    call-setters-on-nulls: true
+    jdbc-type-for-null: 'null'
